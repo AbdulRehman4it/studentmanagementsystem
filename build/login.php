@@ -80,7 +80,7 @@ $conn->close();
                     <div class="bg-white shadow-xl border border-black rounded-3xl 2xl:px-10 py-10 md:px-5 md:py-20">
                         <div class="text-center pt-5 lg:pt-0 text-black">
                             <h2 class="2xl:text-4xl md:text-lg font-bold">Welcome Back!</h2>
-                            <p class="2xl:text-sm md:text-xs font-medium 2xl:pt-2 md pt-1 text-xs text-black">Don’t have an account? <a href="./signup.html"><span class="text-sm font-bold hover:underline">Sign Up</span></a></p>
+                            <p class="2xl:text-sm md:text-xs font-medium 2xl:pt-2 md pt-1 text-xs text-black">Don’t have an account? <a href="./signup.php"><span class="text-sm font-bold hover:underline">Sign Up</span></a></p>
                         </div>
                         <?php if (!empty($loginError)): ?>
                             <p style="color: red; text-align: center; margin-top: 10px; font-size: 14px;"><?php echo $loginError; ?></p>
@@ -93,7 +93,7 @@ $conn->close();
             <div class="space-y-2" x-data="{ show: false }">
               <label class="mb-2 text-sm font-semibold text-black">Password</label>
               <div class="relative">
-                  <input name="password" :type="show ? 'text' : 'password'" class="focus:text-black dark:text-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full 2xl:px-3 2xl:py-4 md:px-2 md:py-2 px-1 py-2 pr-10" placeholder="Enter your password" id="password" required>
+                  <input name="password" :type="show ? 'text' : 'password'" class="focus:text-black border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full 2xl:px-3 2xl:py-4 md:px-2 md:py-2 px-1 py-2 pr-10" placeholder="Enter your password" id="password" required>
                   <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center px-3">
                       <i :class="show ? 'fa fa-eye' : 'fa fa-eye-slash'" class="text-gray-500 dark:text-gray-600"></i>
                   </button>

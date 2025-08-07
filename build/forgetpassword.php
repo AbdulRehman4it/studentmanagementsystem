@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" 
-:class="darkMode ? 'dark' : ''" >
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    
-    <title>Document</title>
-   
+<?php require_once "inc/header.php"; ?>
 
-</head>
+
+
 <body class="bg-[#fbfbfb]">
 
     <section class="2xl:px-16 xl:px-16 2xl:py-20 xl:py-20 lg:px-10 lg:py-16">

@@ -1,59 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Responsive Dashboard</title>
- <link rel="stylesheet" href="../assets/css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-</head>
+<?php require_once "inc/header.php"; ?>
 <body class="bg-gray-50 font-sans antialiased">
   <div class="min-h-screen flex">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-20 w-64 bg-white border-r border-gray-200 px-4 py-6 transform -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0">
-      <div class="items-center mb-8">
-
-        <img src="../assets/img/logodashboard.png" class="w-36" alt="">
-
-      </div>
-      <div class="space-y-2">
-        <a href="./admindashboard.html" class="flex items-center px-3 py-2 rounded-md  hover:bg-gray-100">
-          <span class="mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h7v7H3V3zm11 0h7v4h-7V3zm0 6h7v11h-7V9zm-11 9h7v2H3v-2z" />
-            </svg>
-          </span>
-          Dashboard
-        </a>
-        <a href="./adduser.html" class="flex items-center gap-4 px-3 py-2 rounded-md  hover:bg-gray-100">
-         <i class="fa-solid fa-user-plus"></i>
-          Add User
-        </a>
-        <a href="./deleteuser.html" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
-         <i class="fa-solid fa-user-minus"></i>
-          Delete User
-        </a>
-        <a href="./complaints.html" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
-        <i class="fa-brands fa-searchengin"></i>
-          View Complaints
-        </a>
-        <a href="./certification.html" class="flex items-center px-3 py-2 gap-4 rounded-md active">
-       <i class="fa-solid fa-certificate"></i>
-         Provide certification
-        </a>
-        <a href="./feedback.html" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
-        <i class="fa-solid fa-thumbs-up"></i>
-          Feedback
-        </a>
-        <div class="mt-6">
-          <a href="../index.html" class="flex items-center px-3 py-2 gap-4 rounded-md text-red-600 hover:bg-red-50">
-          <i class="fa-solid fa-arrow-right-from-bracket text-xl"></i>
-            Logout
-          </a>
-        </div>
-      </div>
-    </aside>
+   <?php require_once "inc/sidebar.php"; ?>
 
     <!-- Overlay for mobile when sidebar open -->
     <div id="overlay" class="fixed inset-0 bg-black/30 z-10 hidden md:hidden"></div>
@@ -63,7 +11,7 @@
       <!-- top bar -->
       <header class="px-4 py-4 border-b border-gray-200 bg-white">
         <div class="flex justify-between items-center space-x-4">
-          <img src="../assets/img/logodashboard.png" class="w-20 md:hidden block" alt="">
+          <img src="./assets/img/logodashboard.png" class="w-20 md:hidden block" alt="">
           <button id="menu-btn" class="md:hidden p-2 rounded-md border border-gray-300">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -148,67 +96,92 @@
 
         </div>
       </header>
-  <div class="p-6">
-    <h1 class="text-2xl font-bold mb-6">Provide Certification</h1>
 
-    <!-- List of Courses -->
-    <div class="space-y-4">
-      <!-- Card Item -->
-      <div class="bg-white rounded-2xl shadow flex items-center justify-between p-6">
-        <p class="font-semibold text-sm sm:text-base">INTRODUCTION TO FINANCIAL MARKETS</p>
-        <button class="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-          + Upload Certificate
-        </button>
+      <!-- Assignment content -->
+       <div class="flex gap-10 justify-between overflow-y-auto px-6 py-6">
+
+        <div class=" w-full p-6 bg-white rounded-lg shadow">
+    <h1 class="text-2xl font-bold mb-6">Assignment</h1>
+
+    <!-- Tabs -->
+    <div class="flex space-x-4 mb-6">
+      <button class="px-4 py-2 rounded-md bg-gray-100 text-black font-semibold">All Assignment</button>
+      <button class="px-4 py-2 rounded-md text-gray-500">Pending Assignment</button>
+      <button class="px-4 py-2 rounded-md text-gray-500">Upload Assignment</button>
+    </div>
+
+    <!-- Assignment List -->
+    <div id="assignment-list" class="space-y-4">
+      <!-- Example Assignment -->
+      <div class="flex items-center justify-between border rounded-lg p-4">
+        <div class="flex items-center space-x-4">
+          <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c4.svg" class="w-8 h-8" />
+          <div>
+            <p class="font-semibold">Introduction_to_Marketing.pdf</p>
+            <div class="flex items-center space-x-2 text-sm text-gray-500">
+              <span>📅 6 day left</span>
+              <span class="text-red-500">• Pending</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex space-x-2">
+          <button class="px-4 py-2 border rounded-md">Download</button>
+          <button class="upload-btn px-4 py-2 bg-black text-white rounded-md">Upload</button>
+          <input type="file" class="hidden file-input" />
+        </div>
       </div>
 
-      <!-- Repeat for other courses -->
-      <div class="bg-white rounded-2xl shadow flex items-center justify-between p-6">
-        <p class="font-semibold text-sm sm:text-base">WEB DEVELOPMENT WITH HTML, CSS & JAVASCRIPT</p>
-        <button class="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-          + Upload Certificate
-        </button>
-      </div>
-
-      <div class="bg-white rounded-2xl shadow flex items-center justify-between p-6">
-        <p class="font-semibold text-sm sm:text-base">GRAPHIC DESIGN WITH ADOBE PHOTOSHOP</p>
-        <button class="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-          + Upload Certificate
-        </button>
-      </div>
-
-      <div class="bg-white rounded-2xl shadow flex items-center justify-between p-6">
-        <p class="font-semibold text-sm sm:text-base">SEO CRASH COURSE: RANK #1 ON GOOGLE</p>
-        <button class="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-          + Upload Certificate
-        </button>
-      </div>
-
-      <div class="bg-white rounded-2xl shadow flex items-center justify-between p-6">
-        <p class="font-semibold text-sm sm:text-base">PUBLIC SPEAKING & CONFIDENCE BUILDING</p>
-        <button class="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-          + Upload Certificate
-        </button>
-      </div>
-
-      <div class="bg-white rounded-2xl shadow flex items-center justify-between p-6">
-        <p class="font-semibold text-sm sm:text-base">INSTAGRAM REELS & SHORTS CREATION</p>
-        <button class="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-          + Upload Certificate
-        </button>
+      <!-- Another Example Assignment -->
+      <div class="flex items-center justify-between border rounded-lg p-4">
+        <div class="flex items-center space-x-4">
+          <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c4.svg" class="w-8 h-8" />
+          <div>
+            <p class="font-semibold">Introduction_to_UI_UX.svg</p>
+            <div class="flex items-center space-x-2 text-sm text-gray-500">
+              <span>📅 1 day left</span>
+              <span class="text-blue-500">• Submitted</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex space-x-2">
+          <button class="px-4 py-2 border rounded-md">Download</button>
+          <button class="upload-btn px-4 py-2 bg-gray-300 text-gray-500 rounded-md cursor-not-allowed" disabled>Upload</button>
+        </div>
       </div>
     </div>
 
     <!-- Pagination -->
-    <div class="flex justify-between items-center mt-8 text-sm text-gray-600">
-      <button class="hover:text-black">&larr;</button>
+    <div class="flex items-center justify-center mt-6 space-x-6 text-gray-500">
+      <button class="text-xl">&larr;</button>
       <span>Page 1 of 10</span>
-      <button class="hover:text-black">&rarr;</button>
-    </div>
-  </div>
+      <button class="text-xl">&rarr;</button>
     </div>
   </div>
 
-  <!-- sidebar menu  -->
+  <script>
+    // Upload button logic
+    document.querySelectorAll('.upload-btn').forEach((btn, index) => {
+      const fileInput = btn.parentElement.querySelector('.file-input');
+
+      if (fileInput) {
+        btn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            alert(`✅ Uploaded: ${file.name}`);
+            // You can send it to backend here using fetch/AJAX
+            // const formData = new FormData();
+            // formData.append("assignment", file);
+          }
+        });
+      }
+    });
+  </script>
+      </div> <!-- end central scrollable -->
+    </div>
+  </div>
+
   <script>
     const sidebar = document.getElementById('sidebar');
     const menuBtn = document.getElementById('menu-btn');
@@ -234,6 +207,6 @@
     overlay.addEventListener('click', closeSidebar);
   </script>
 
-  <script src="https://kit.fontawesome.com/a2ada4947c.js" crossorigin="anonymous"></script>
+
 </body>
 </html>
