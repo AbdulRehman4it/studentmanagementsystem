@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+
+ <nav class="bg-black py-6 xl:px-20 lg:px-10 px-5">
+  <div class="flex justify-between items-center text-white">
+    <div class="flex items-center space-x-4">
+      <img src="" alt="">
+      <h1 class="md:text-2xl text-xl font-bold">Learning Hub</h1>
+    </div>
+
+    <!-- Menu -->
+    <div class="hidden lg:flex">
+      <ul class="flex space-x-8 items-center">
+
+        <li><a href="index.html" class="font-medium text-base">Home</a></li>
+
+        <!-- Courses Dropdown (Desktop Hover) -->
+        <li class="relative group">
+          <a href="courses.html" class="font-medium text-base flex items-center space-x-1">
+            <span>Courses</span>
+            <i class="fas fa-chevron-down transition-transform duration-300 group-hover:rotate-180"></i>
+          </a>
+
+          <ul class="absolute bg-white text-black rounded shadow-lg w-44 hidden group-hover:block">
+            <li><a href="./web.html" class="block px-4 py-2 hover:bg-black hover:text-white">Web Development</a></li>
+            <li><a href="./game.html" class="block px-4 py-2 hover:bg-black hover:text-white">Game Development</a></li>
+            <li><a href="./graphics.html" class="block px-4 py-2 hover:bg-black hover:text-white">Graphic Design</a></li>
+            <li><a href="./digital.html" class="block px-4 py-2 hover:bg-black hover:text-white">Digital Marketing</a></li>
+          </ul>
+        </li>
+
+        <li><a href="about.html" class="font-medium text-base">About Us</a></li>
+        <li><a href="contact.html" class="font-medium text-base">Contact Us</a></li>
+
+        <!-- Login Dropdown (Desktop Hover) -->
+        <li class="relative group">
+          <a href="login.html" class="font-medium text-base flex items-center space-x-1">
+            <span>Log In</span>
+          
+          </a>
+
+        
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden">
+      <button id="menu-btn">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden mt-5 text-white hidden text-center items-center">
+    <ul class="space-y-4">
+      <li><a href="#" class="block font-medium text-base">Home</a></li>
+
+      <!-- Courses Dropdown (Mobile Click) -->
+      <li>
+        <button onclick="toggleDropdown('courses-mobile', 'courses-icon-mobile')" class="flex justify-center items-center space-x-2 font-medium text-base w-full">
+          <span>Courses</span>
+          <i id="courses-icon-mobile" class="fas fa-chevron-down transition-transform duration-300"></i>
+        </button>
+        <ul id="courses-mobile" class="ml-4 mt-2 space-y-2 hidden">
+          <li><a href="#" class="block text-base">Web Development</a></li>
+          <li><a href="#" class="block text-base">Graphic Design</a></li>
+          <li><a href="#" class="block text-base">Digital Marketing</a></li>
+          <li><a href="#" class="block text-base">AI & ML Basics</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#" class="block font-medium text-base">About Us</a></li>
+      <li><a href="#" class="block font-medium text-base">Contact Us</a></li>
+
+      <!-- Login Dropdown (Mobile Click) -->
+      <li>
+        <button onclick="toggleDropdown('login-mobile', 'login-icon-mobile')" class="flex justify-center items-center space-x-2 font-medium text-base w-full">
+          <span>Log In</span>
+     
+        </button>
+     
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  // Mobile Menu Toggle with icon change
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = menuBtn.querySelector('i');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    
+    if (mobileMenu.classList.contains('hidden')) {
+      menuIcon.classList.remove('fa-times');
+      menuIcon.classList.add('fa-bars');
+    } else {
+      menuIcon.classList.remove('fa-bars');
+      menuIcon.classList.add('fa-times');
+    }
+  });
+
+  // Dropdown Toggle for Mobile only
+  function toggleDropdown(menuId, iconId) {
+    const dropdowns = [
+      {menu: 'courses-mobile', icon: 'courses-icon-mobile'},
+      {menu: 'login-mobile', icon: 'login-icon-mobile'},
+    ];
+
+    dropdowns.forEach(item => {
+      const menu = document.getElementById(item.menu);
+      const icon = document.getElementById(item.icon);
+
+      if (item.menu === menuId) {
+        menu.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+      } else {
+        menu.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    });
+  }
+</script>
+
+    <section class="h-96 bg-fixed bg-center bg-no-repeat bg-cover" style="background-image: url('./assets/img/gamebanner.webp')">
+  <div class="h-96 flex items-center justify-center bg-black bg-opacity-80">
+    <h1 class="md:text-4xl text-2xl font-bold text-white">Game Development</h1>
+  </div>
+</section>
+
+
+<section class="xl:py-20 py-10 xl:px-20 lg:px-10 px-5">
+    <div class="flex flex-col lg:flex-row xl:gap-20 gap-10">
+        <div class="lg:w-2/3 w-full">
+            <img src="./assets/img/game.jpeg" class="rounded-2xl" alt="">
+        </div>
+        <div class="lg:w-1/3 w-full">
+            <div>
+                 <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-medium">This course include:</h1>
+                 <div class="pt-4">
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-video"></i> &nbsp; 52 hours vedios</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-newspaper"></i> &nbsp;  75 articles</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-cloud-arrow-down"></i> &nbsp;  Downloadable resources</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-infinity"></i> &nbsp; Full life time access</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-mobile-screen-button"></i> &nbsp; Access on laptop and mobile</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-paperclip"></i> &nbsp; Assingments</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-trophy"></i> &nbsp; Certificate of complation</p>
+                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="xl:py-20 py-10 xl:px-20 lg:px-10 px-5">
+    <div class="lg:w-3/5 w-full">
+    <div>
+        <h1 class="text-black xl:text-5xl md:text-4xl text-2xl font-semibold pb-2">Game Development Course
+</h1>
+<span class="fa fa-star checked text-orange-500"></span>
+<span class="fa fa-star checked text-orange-500"></span>
+<span class="fa fa-star checked text-orange-500"></span>
+<span class="fa fa-star text-orange-500"></span>
+<span class="fa fa-star"></span>
+<p class="2xl:text-lg text-base pt-4 text-[#666666] xl:leading-7 leading-6">Game Development is the art of creating games and describes the design, development and release of a game. It may involve concept generation, design, build, test and release. While you create a game, it is important to think about the game mechanics, rewards, player engagement and level design.</p>
+    </div>
+
+    <div class="pt-10">
+        <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-semibold">Instructor</h1>
+        <div class="flex items-center gap-4 pt-6">
+            <img src="./assets/img/instractor.png" class="w-16" alt="">
+            <div>
+                <h2 class="text-black text-2xl font-semibold">Shahmeer Ali</h2>
+                <p class="text-base text-[#666666]">game developer at Google</p>
+            </div>
+        </div>
+    </div>
+    <div class="pt-5">
+    <hr>
+    </div>
+    </div>
+</section>
+
+<section class="xl:py-20 py-10 xl:px-20 lg:px-10 px-5">
+    <div class="lg:w-3/5 w-full">
+    <div>
+        <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-semibold">Course overview</h1>
+        <p class="2xl:text-lg text-base pt-4 text-[#666666] xl:leading-7 leading-6">Game Development can be undertaken by a large Game Development Studio or by a single individual. It can be as small or large as you like. As long as it lets the player interact with content and is able to manipulate the game’s elements, you can call it a ‘game’.To get involved in the Game Development process, you do not need to write code. Artists may create and design assets, while a Developer might focus on programming a health bar. A Tester may get involved to see that the game works as expected. <br> <br>
+
+Video game development is the process of developing a video game. The effort is undertaken by a developer, ranging from a single person to an international team dispersed across the globe. Development of traditional commercial PC and console games is normally funded by a publisher, and can take several years to reach completion. Indie games usually take less time and money and can be produced by individuals and smaller developers. The independent game industry has been on the rise, facilitated by the growth of accessible game development software such as Unity platform and Unreal Engine and new online distribution systems such as Steam and Uplay, as well as the mobile game market for Android and iOS devices.<br> <br>
+He first video games, developed in the 1960s, were not usually commercialised. They required mainframe computers to run and were not available to the general public. Commercial game development began in the '70s with the advent of first-generation video game consoles and early home computers like the Apple I. At that time, owing to low costs and low capabilities of computers, a lone programmer could develop a full and complete game.</p>
+    </div>
+    <div class="py-6">
+    <hr>
+    </div>
+     <div>
+                 <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-medium">What you will learn in this course</h1>
+                 <div class="pt-4">
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle"></i> &nbsp; 52 hours vedios</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle"></i> &nbsp;  75 articles</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle"></i> &nbsp;  Downloadable resources</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle"></i> &nbsp; Full life time access</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle"></i> &nbsp; Access on laptop and mobile</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle"></i> &nbsp; Assingments</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle"></i> &nbsp; Certificate of complation</p>
+                 </div>
+            </div>
+    </div>
+</section>
+
+
+
+  <script src="https://kit.fontawesome.com/a2ada4947c.js" crossorigin="anonymous"></script>
+
+</body>
+</html>

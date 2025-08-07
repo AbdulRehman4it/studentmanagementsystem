@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+
+ <nav class="bg-black py-6 xl:px-20 lg:px-10 px-5">
+  <div class="flex justify-between items-center text-white">
+    <div class="flex items-center space-x-4">
+      <img src="" alt="">
+      <h1 class="md:text-2xl text-xl font-bold">Learning Hub</h1>
+    </div>
+
+    <!-- Menu -->
+    <div class="hidden lg:flex">
+      <ul class="flex space-x-8 items-center">
+
+        <li><a href="index.html" class="font-medium text-base">Home</a></li>
+
+        <!-- Courses Dropdown (Desktop Hover) -->
+        <li class="relative group">
+          <a href="courses.html" class="font-medium text-base flex items-center space-x-1">
+            <span>Courses</span>
+            <i class="fas fa-chevron-down transition-transform duration-300 group-hover:rotate-180"></i>
+          </a>
+
+          <ul class="absolute bg-white text-black rounded shadow-lg w-44 hidden group-hover:block">
+            <li><a href="./web.html" class="block px-4 py-2 hover:bg-black hover:text-white">Web Development</a></li>
+            <li><a href="./game.html" class="block px-4 py-2 hover:bg-black hover:text-white">Game Development</a></li>
+            <li><a href="./graphics.html" class="block px-4 py-2 hover:bg-black hover:text-white">Graphic Design</a></li>
+            <li><a href="./digital.html" class="block px-4 py-2 hover:bg-black hover:text-white">Digital Marketing</a></li>
+          </ul>
+        </li>
+
+        <li><a href="about.html" class="font-medium text-base">About Us</a></li>
+        <li><a href="contact.html" class="font-medium text-base">Contact Us</a></li>
+
+        <!-- Login Dropdown (Desktop Hover) -->
+        <li class="relative group">
+          <a href="login.html" class="font-medium text-base flex items-center space-x-1">
+            <span>Log In</span>
+         
+          </a>
+
+          
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden">
+      <button id="menu-btn">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden mt-5 text-white hidden text-center items-center">
+    <ul class="space-y-4">
+      <li><a href="#" class="block font-medium text-base">Home</a></li>
+
+      <!-- Courses Dropdown (Mobile Click) -->
+      <li>
+        <button onclick="toggleDropdown('courses-mobile', 'courses-icon-mobile')" class="flex justify-center items-center space-x-2 font-medium text-base w-full">
+          <span>Courses</span>
+          <i id="courses-icon-mobile" class="fas fa-chevron-down transition-transform duration-300"></i>
+        </button>
+        <ul id="courses-mobile" class="ml-4 mt-2 space-y-2 hidden">
+          <li><a href="#" class="block text-base">Web Development</a></li>
+          <li><a href="#" class="block text-base">Graphic Design</a></li>
+          <li><a href="#" class="block text-base">Digital Marketing</a></li>
+          <li><a href="#" class="block text-base">AI & ML Basics</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#" class="block font-medium text-base">About Us</a></li>
+      <li><a href="#" class="block font-medium text-base">Contact Us</a></li>
+
+      <!-- Login Dropdown (Mobile Click) -->
+      <li>
+        <button onclick="toggleDropdown('login-mobile', 'login-icon-mobile')" class="flex justify-center items-center space-x-2 font-medium text-base w-full">
+          <span>Log In</span>
+          
+        </button>
+       
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  // Mobile Menu Toggle with icon change
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = menuBtn.querySelector('i');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    
+    if (mobileMenu.classList.contains('hidden')) {
+      menuIcon.classList.remove('fa-times');
+      menuIcon.classList.add('fa-bars');
+    } else {
+      menuIcon.classList.remove('fa-bars');
+      menuIcon.classList.add('fa-times');
+    }
+  });
+
+  // Dropdown Toggle for Mobile only
+  function toggleDropdown(menuId, iconId) {
+    const dropdowns = [
+      {menu: 'courses-mobile', icon: 'courses-icon-mobile'},
+      {menu: 'login-mobile', icon: 'login-icon-mobile'},
+    ];
+
+    dropdowns.forEach(item => {
+      const menu = document.getElementById(item.menu);
+      const icon = document.getElementById(item.icon);
+
+      if (item.menu === menuId) {
+        menu.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+      } else {
+        menu.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    });
+  }
+</script>
+
+
+<!-- parralex  -->
+   <section class="h-96 bg-fixed bg-center bg-no-repeat bg-cover" style="background-image: url('./assets/img/graphics banners.png')">
+  <div class="h-96 flex items-center justify-center bg-black bg-opacity-60">
+    <h1 class="md:text-4xl text-2xl font-bold text-white">Graphic Designing</h1>
+  </div>
+</section>
+
+<!-- included section  -->
+
+<section class="xl:py-20 py-10 xl:px-20 lg:px-10 px-5">
+    <div class="flex flex-col lg:flex-row xl:gap-20 gap-10">
+        <div class="lg:w-2/3 w-full">
+            <img src="./assets/img/graphic.jpg" class="rounded-2xl w-full" alt="">
+        </div>
+        <div class="lg:w-1/3 w-full">
+            <div>
+                 <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-medium">This Course Include:</h1>
+                 <div class="pt-4">
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-video text-black"></i> &nbsp; 52 hours vedios</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-newspaper text-black"></i> &nbsp;  75 articles</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-cloud-arrow-down text-black"></i> &nbsp;  Downloadable resources</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-infinity text-black"></i> &nbsp; Full life time access</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-mobile-screen-button text-black"></i> &nbsp; Access on laptop and mobile</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-paperclip text-black"></i> &nbsp; Assingments</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="fa-solid fa-trophy text-black"></i> &nbsp; Certificate of complation</p>
+                 </div>
+
+                  <div class="pt-10">
+          <a href="">
+      <button class="bg-black py-2 px-6 text-white hover:bg-white hover:text-black border border-black">Enroll Now</button>
+      </a>
+    </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- courses  -->
+<section class="xl:py-20 py-10 xl:px-20 lg:px-10 px-5">
+    <div class="lg:w-3/5 w-full">
+    <div>
+        <h1 class="text-black xl:text-5xl md:text-4xl text-2xl font-semibold pb-4">Graphic Desingning Course
+</h1>
+<span class="fa fa-star checked text-orange-500"></span>
+<span class="fa fa-star checked text-orange-500"></span>
+<span class="fa fa-star checked text-orange-500"></span>
+<span class="fa fa-star text-orange-500"></span>
+<span class="fa fa-star"></span>
+<p class="2xl:text-lg text-base pt-4 text-[#666666] xl:leading-7 leading-6">Graphic design is a profession, applied art and academic discipline whose activity consists in projecting visual communications intended to transmit specific messages to social groups, with specific objectives.</p>
+    </div>
+
+    <div class="pt-10">
+        <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-semibold">Instructor</h1>
+        <div class="flex items-center gap-4 pt-6">
+            <img src="./assets/images/team2.png" class="w-16" alt="">
+            <div>
+                <h2 class="text-black 2xl:text-xl text-lg font-semibold">Maham Jabeen</h2>
+                <p class="text-base text-[#666666]">Graphic designer at Google</p>
+            </div>
+        </div>
+    </div>
+    <div class="pt-5">
+    <hr>
+    </div>
+    </div>
+</section>
+
+
+<!-- courses overview  -->
+<section class="xl:pb-20 pb-10 xl:px-20 lg:px-10 px-5">
+    <div class="lg:w-3/5 w-full">
+    <div>
+        <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-semibold">Course Overview</h1>
+        <p class="2xl:text-lg text-base pt-4 text-[#666666] xl:leading-7 leading-6">Graphic design is a craft where professionals create visual content to communicate messages. By applying visual hierarchy and page layout techniques, designers use typography and pictures to meet users’ specific needs and focus on the logic of displaying elements in interactive designs, to optimize the user experience.Graphic design is an ancient craft, dating back past Egyptian hieroglyphs to at least 17,000-year-old cave paintings. It’s a term that originated in the 1920sx’ print industry. It continues to cover a range of activities including logo creation.<br> <br>
+
+   Graphic design in this sense concerns aesthetic appeal and marketing. Graphic designers attract viewers using images, color and typography. However, graphic designers working in user experience (UX) design must justify stylistic choices regarding, say, image locations and font with a human-centered approach. That means you need to focus on—and seek to empathize the most with—your specific users while you create good-looking designs that maximize usability. Aesthetics must serve a purpose—in UX design we don’t create art for art’s sake. So, graphic designers must branch into visual design.<br> <br>
+
+       Graphic design has, as a field of application, different areas of knowledge focused on any visual communication system. For example, it can be applied in advertising strategies, or it can also be applied in the aviation world[8] or space exploration.In this sense, in some countries graphic design is related as only associated with the production of sketches and drawings, this is incorrect, since visual communication is a small part of a huge range of types and classes where it can be applied.</p>
+    </div>
+    <div class="py-6">
+    <hr>
+    </div>
+     <div>
+                 <h1 class="text-black xl:text-4xl md:text-3xl text-2xl font-medium">What You Will Learn In This Course</h1>
+                 <div class="pt-4">
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle text-black"></i> &nbsp; Breif introduction of Graphic Desingning</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle text-black"></i> &nbsp;  Importance of Graphic Desingning</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle text-black"></i> &nbsp;   Graphic Desingning tool and technique</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle text-black"></i> &nbsp; languages of Graphic Desingning</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle text-black"></i> &nbsp;  Practice work of course</p>
+                 <p class="xl:text-lg text-base pt-4 text-[#666666]"><i class="far fa-check-circle text-black"></i> &nbsp;   Framework for Graphic Desingning</p>
+                 
+               
+                 </div>
+            </div>
+    </div>
+</section>
+
+
+<!-- footer  -->
+ 
+<footer class="bg-black lg:py-20 py-10 xl:px-20 lg:px-10 px-5">
+  <div class="flex md:justify-between justify-center items-center md:flex-row flex-col">
+    <div class="flex flex-col justify-center">
+      <img src="./assets/img/" alt="">
+      <h1 class="text-2xl font-bold text-white">Learning Hub</h1>
+    </div>
+    <div class="pt-5 md:pt-0">
+       <h1 class="md:text-2xl text-xl font-bold text-white">Quick Links</h1>
+      <div class="flex flex-col justify-center items-center pt-6 space-y-4">
+        <a href="index.html" class="text-white font-medium text-base hover:underline">Home</a>
+        <a href="courses.html" class="text-white font-medium text-base hover:underline">Course</a>
+        <a href="about.html" class="text-white font-medium text-base hover:underline">About</a>
+        <a href="contact.html" class="text-white font-medium text-base hover:underline">Contact</a>
+        </div>
+    </div>
+    
+    <div class="space-y-4 flex flex-col justify-center items-center pt-5 md:pt-0">
+      <h1 class="md:text-2xl text-xl font-bold text-white">Contact Info</h1>
+      <p class="text-white text-base "><i class="fa-solid fa-location-dot"></i>&nbsp; Lahore, Pakistan</p>
+      <p class="text-white text-base "><i class="fa-solid fa-envelope"></i>&nbsp; learninghub@gmail.com</p>
+      <p class="text-white text-base "><i class="fa-solid fa-phone"></i>&nbsp; 0562929978</p>
+    </div>
+  </div>
+</footer>
+
+ <script src="https://kit.fontawesome.com/a2ada4947c.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
