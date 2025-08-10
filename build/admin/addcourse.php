@@ -72,25 +72,22 @@ $courses = $conn->query("SELECT * FROM courses ORDER BY created_at DESC");
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Course - Admin Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
+<?php require_once "inc/header.php"; ?>
+<body class="bg-gray-50">
+
+
+  <?php require_once "inc/sidebar.php"; ?>
 
   <!-- Dashboard Header -->
-  <header class="bg-white shadow p-4 flex justify-between items-center">
+  <!-- <header class="bg-white shadow p-4 flex justify-between items-center">
     <h1 class="text-xl font-bold">Admin Dashboard</h1>
-    <a href="logout.php" class="text-red-500 hover:underline">Logout</a>
-  </header>
+    <a href="logout.php" class="text-black font-bold text-lg hover:underline">Logout</a>
+  </header> -->
 
   <!-- Main Container -->
-  <main class="max-w-4xl mx-auto mt-8 bg-white rounded-lg shadow p-6">
-    <h2 class="text-2xl font-bold mb-6">Add New Course</h2>
+  <main class="flex-1 flex flex-col ml-0 md:ml-64 overflow-hidden bg-white rounded-lg shadow p-6">
+    <?php require_once "inc/topbar.php"; ?>
+    <h2 class="text-2xl font-bold mb-6 mt-10">Add New Course</h2>
     <form action="#" method="POST" enctype="multipart/form-data" class="space-y-4">
 
       <!-- Course Title -->
@@ -180,7 +177,7 @@ $courses = $conn->query("SELECT * FROM courses ORDER BY created_at DESC");
     </form>
   </main>
 <!-- Course List Table -->
-    <div class="bg-white p-6 rounded-xl shadow">
+    <div class="bg-white p-6 rounded-xl shadow ml-64 mt-20">
         <h2 class="text-xl font-bold mb-4">Uploaded Courses</h2>
         <table class="w-full table-auto border-collapse border border-gray-300">
             <thead>
@@ -212,5 +209,8 @@ $courses = $conn->query("SELECT * FROM courses ORDER BY created_at DESC");
             </tbody>
         </table>
     </div>
+
+      <script src="https://kit.fontawesome.com/a2ada4947c.js" crossorigin="anonymous"></script>
+
 </body>
 </html>

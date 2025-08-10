@@ -14,13 +14,18 @@
           </span>
           Dashboard
         </a>
-        <a href="./adduser.php" class="flex items-center gap-4 px-3 py-2 rounded-md  active">
+        <a href="./adduser.php" class="flex items-center gap-4 px-3 py-2 rounded-md">
          <i class="fa-solid fa-user-plus"></i>
           Add User
         </a>
         <a href="./deleteuser.php" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100 ">
          <i class="fa-solid fa-user-minus"></i>
           Delete User
+        </a>
+
+          <a href="./addcourse.php" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100 ">
+         <i class="fa-solid fa-book-bible"></i>
+          Add Course
         </a>
         <a href="./complaints.php" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
         <i class="fa-brands fa-searchengin"></i>
