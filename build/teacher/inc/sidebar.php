@@ -26,6 +26,10 @@
          <i class="fa-solid fa-medal text-xl"></i>
           Grading
         </a>
+         <a href="./onlineclass.php" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
+         <i class="fa-solid fa-medal text-xl"></i>
+          Online Class
+        </a>
         <a href="./livechat.php" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
        <i class="fa-solid fa-message text-xl"></i>
           Live Chat

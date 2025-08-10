@@ -1,7 +1,7 @@
 <?php include("inc/header.php"); ?>
 
 <body class="bg-[#fbfbfb]">
-
+<?php require_once "inc/nav.php"; ?>
 <section class="2xl:px-16 xl:px-16 2xl:py-20 xl:py-20 lg:px-10 lg:py-16">
     <div class="pop flex flex-col lg:flex-row justify-between items-center 2xl:gap-24 bg-white dark:border-black border md:rounded-3xl 2xl:px-32 md:px-16 w-full">
         <div class="2xl:py-56 xl:py-36 md:w-3/5 p-5">
