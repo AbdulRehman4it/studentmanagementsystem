@@ -1,4 +1,52 @@
-<?php require_once "inc/header.php"; ?>
+  <script>
+    function toggleDropdown() {
+      document.getElementById('dropdown').classList.toggle('hidden');
+    }
+    function selectCourse(id, title) {
+      document.getElementById('selectedCourseBtn').textContent = title + " ▼";
+      document.getElementById('course_id').value = id;
+      toggleDropdown();
+    }
+  </script>
+<?php require_once "inc/header.php"; 
+require_once "../inc/db.php";
+// Redirect if user not logged in
+
+
+$userId = $_SESSION['user_id'];
+$feedbackSaved = false;
+$error = '';
+
+// Fetch courses for dropdown
+$courses = [];
+$result = $conn->query("SELECT id, title, short_description FROM courses ORDER BY title");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $courses[] = $row;
+    }
+}
+
+// Handle feedback form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $course_id = intval($_POST['course_id'] ?? 0);
+    $rating = intval($_POST['rating'] ?? 0);
+    $comments = trim($_POST['comments'] ?? '');
+
+    if ($course_id > 0 && $rating >= 1 && $rating <= 5 && !empty($comments)) {
+        $stmt = $conn->prepare("INSERT INTO feedback (user_id, course_id, rating, comments) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("iiis", $userId, $course_id, $rating, $comments);
+        if ($stmt->execute()) {
+            $feedbackSaved = true;
+        } else {
+            $error = "Failed to save feedback: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        $error = "Please fill in all fields correctly.";
+    }
+}
+
+?>
 <body class="bg-gray-50 font-sans antialiased">
   <div class="min-h-screen flex">
   <?php require_once "inc/sidebar.php"; ?>
@@ -13,71 +61,56 @@
 
 
       <div class="lg:p-20 py-8">
-  <!-- Heading -->
-  <h1 class="text-3xl font-bold mb-6">Your Feedback</h1>
+ 
 
-  <!-- Select Course -->
-  <div class="flex gap-4 mb-6">
-    <div class="relative inline-block">
-      <button onclick="toggleDropdown()" class="bg-gray-200 px-4 py-2 rounded-md shadow text-sm font-medium focus:outline-none">
-        Select Course ▼
-      </button>
-      <ul id="dropdown" class="absolute mt-2 w-48 bg-white border rounded shadow-lg hidden z-10">
-        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">UI/UX Design Basics</li>
-        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Figma for Beginners</li>
-        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Motion UI Fundamentals</li>
-      </ul>
-    </div>
-    <button class="text-gray-400 font-semibold">Review Feedback</button>
-  </div>
 
-  <!-- Feedback Card -->
-  <div class="border rounded-xl p-4 mb-4 shadow-sm">
-    <div class="flex items-center mb-3 gap-4">
-      <img src="https://via.placeholder.com/100x60" class="w-28 rounded-md" alt="Course" />
-      <div>
-        <h3 class="text-lg font-bold">UI/UX Design Basics</h3>
-        <p class="text-sm text-gray-600">Foundations of Modern Interface & User Experience.<br>Total videos: 12</p>
+
+
+<h1 class="text-3xl font-bold mb-6">Your Feedback</h1>
+
+  <?php if ($feedbackSaved): ?>
+    <p class="text-green-600 mb-4">Thank you! Your feedback has been saved.</p>
+  <?php elseif ($error): ?>
+    <p class="text-red-600 mb-4"><?= htmlspecialchars($error) ?></p>
+  <?php endif; ?>
+
+  <form method="POST" action="">
+    <!-- Select Course -->
+    <div class="flex gap-4 mb-6">
+      <div class="relative inline-block">
+        <button type="button" id="selectedCourseBtn" onclick="toggleDropdown()" class="bg-gray-200 px-4 py-2 rounded-md shadow text-sm font-medium focus:outline-none">
+          Select Course ▼
+        </button>
+        <ul id="dropdown" class="absolute mt-2 w-48 bg-white border rounded shadow-lg hidden z-10 max-h-48 overflow-auto">
+          <?php foreach ($courses as $course): ?>
+            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" onclick="selectCourse(<?= $course['id'] ?>, '<?= addslashes($course['title']) ?>')">
+              <?= htmlspecialchars($course['title']) ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
       </div>
+      <button type="button" class="text-gray-400 font-semibold" onclick="alert('Please select a course first')">Review Feedback</button>
     </div>
 
-    <!-- Star Rating -->
-    <div class="text-yellow-500 text-lg mb-2">★★★★☆</div>
+    <input type="hidden" name="course_id" id="course_id" value="">
 
-    <p class="text-sm text-gray-700">
-      As someone completely new to UI/UX design👋, I found this course incredibly helpful💡...
-      <br><span class="font-semibold">— Fiaz Ali, Beginner Designer</span>
-    </p>
+    <!-- Rating -->
+    <label class="block mb-2 font-semibold">Your Rating (1 to 5 stars):</label>
+    <select name="rating" required class="mb-4 px-3 py-2 border rounded">
+      <option value="">Select rating</option>
+      <option value="5">★★★★★ (5 stars)</option>
+      <option value="4">★★★★☆ (4 stars)</option>
+      <option value="3">★★★☆☆ (3 stars)</option>
+      <option value="2">★★☆☆☆ (2 stars)</option>
+      <option value="1">★☆☆☆☆ (1 star)</option>
+    </select>
 
-    <button class="bg-black text-white mt-4 px-4 py-2 rounded-md hover:bg-gray-900">Upload feedback</button>
-  </div>
+    <!-- Comments -->
+    <label class="block mb-2 font-semibold">Your Feedback:</label>
+    <textarea name="comments" rows="5" required class="w-full px-3 py-2 border rounded mb-4" placeholder="Write your feedback here..."></textarea>
 
-  <!-- Accordion Questions -->
-  <div class="space-y-4">
-
-    <!-- What did you enjoy? -->
-    <details class="border rounded-xl p-4">
-      <summary class="font-semibold text-lg cursor-pointer">What did you enjoy about this course?</summary>
-      <p class="text-sm mt-2 text-gray-600">"Tell us what you liked most — teaching style, structure, content, or overall experience."</p>
-    </details>
-
-    <!-- What could be improved? -->
-    <details class="border rounded-xl p-4">
-      <summary class="font-semibold text-lg cursor-pointer">What could be improved?</summary>
-      <p class="text-sm mt-2 text-gray-600">"Suggest any improvements in content, pace, clarity, or anything else."</p>
-    </details>
-
-  </div>
-
-  <!-- Recommendation -->
-  <div class="mt-6 border rounded-xl p-4 text-center">
-    <h2 class="text-lg font-semibold mb-2">Would you recommend this course to others?</h2>
-    <p class="text-sm text-gray-600 mb-4">Let us know if you'd suggest this course to your friends, classmates, or colleagues.</p>
-    <div class="flex justify-center gap-4">
-      <button class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-900">Yes</button>
-      <button class="bg-white border px-6 py-2 rounded-md hover:bg-gray-100">No</button>
-    </div>
-  </div>
+    <button type="submit" class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-900">Upload feedback</button>
+  </form>
 
  
 

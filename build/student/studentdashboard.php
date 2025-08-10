@@ -1,10 +1,4 @@
-<?php
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
-?>
+
 <?php require_once "inc/header.php"; ?>
 <body class="bg-gray-50 font-sans antialiased">
   <div class="min-h-screen flex">
@@ -41,138 +35,49 @@ if (!isset($_SESSION['user_id'])) {
 
         <!-- cards grid -->
         <main class="px-4 pb-8">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- card example -->
-            <div class="card bg-white rounded-2xl overflow-hidden relative">
-              <div class="h-32 bg-[url('https://images.unsplash.com/photo-1581091012184-7d70c6b6d0f6?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center"></div>
-              <div class="p-4">
-                <div class="text-xs uppercase font-semibold text-gray-500 mb-1">Trader</div>
-                <h3 class="font-medium text-base mb-2">Beginner’s Guide To Becoming A Professional In Finance</h3>
-                <div class="flex items-center space-x-2 mb-3">
-                  <img src="https://via.placeholder.com/28" alt="author" class="w-7 h-7 rounded-full object-cover"/>
-                  <div class="text-xs">
-                    <div class="font-semibold">Muhammad Fiaz</div>
-                    <div class="text-gray-400">Stock Trader</div>
-                  </div>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="w-1/3 h-full bg-gray-400"></div>
-                </div>
-              </div>
+        <?php
+include '../inc/db.php'; // Your database connection
+
+$sql = "SELECT * FROM courses ORDER BY id DESC";
+$result = $conn->query($sql);
+
+echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">';
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+ echo '
+<a href="playlist.php?id=' . $row['id'] . '" class="block">
+    <div class="card bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
+        <!-- Thumbnail -->
+        <div class="h-40 bg-cover bg-center" style="background-image: url(\'../admin/' . htmlspecialchars($row['thumbnail']) . '\');"></div>
+        
+        <!-- Content -->
+        <div class="p-4">
+            <h3 class="font-semibold text-lg mb-1">' . htmlspecialchars($row['title']) . '</h3>
+            <p class="text-sm text-gray-600 mb-3">' . htmlspecialchars($row['short_description']) . '</p>
+            
+            <ul class="text-xs text-gray-500 space-y-1">
+                <li><strong>Video Hours:</strong> ' . htmlspecialchars($row['video_hours']) . '</li>
+                <li><strong>Articles:</strong> ' . htmlspecialchars($row['articles']) . '</li>
+                <li><strong>Resources:</strong> ' . htmlspecialchars($row['resources']) . '</li>
+                <li><strong>Assignments:</strong> ' . htmlspecialchars($row['assignments']) . '</li>
+                <li><strong>Certificate:</strong> ' . htmlspecialchars($row['certificate']) . '</li>
+            </ul>
+
+            <div class="mt-4">
+                <p class="text-xs text-gray-500"><strong>Instructor:</strong> ' . htmlspecialchars($row['instructor_name']) . ' (' . htmlspecialchars($row['instructor_designation']) . ')</p>
             </div>
+        </div>
+    </div>
+</a>';
+    }
+} else {
+    echo '<p class="col-span-4 text-center text-gray-500">No courses found.</p>';
+}
+echo '</div>';
 
-             <div class="card bg-white rounded-2xl overflow-hidden relative">
-              <div class="h-32 bg-[url('https://images.unsplash.com/photo-1581091012184-7d70c6b6d0f6?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center"></div>
-              <div class="p-4">
-                <div class="text-xs uppercase font-semibold text-gray-500 mb-1">Trader</div>
-                <h3 class="font-medium text-base mb-2">Beginner’s Guide To Becoming A Professional In Finance</h3>
-                <div class="flex items-center space-x-2 mb-3">
-                  <img src="https://via.placeholder.com/28" alt="author" class="w-7 h-7 rounded-full object-cover"/>
-                  <div class="text-xs">
-                    <div class="font-semibold">Muhammad Fiaz</div>
-                    <div class="text-gray-400">Stock Trader</div>
-                  </div>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="w-1/3 h-full bg-gray-400"></div>
-                </div>
-              </div>
-            </div>
+$conn->close();
+?>
 
-
-             <div class="card bg-white rounded-2xl overflow-hidden relative">
-              <div class="h-32 bg-[url('https://images.unsplash.com/photo-1581091012184-7d70c6b6d0f6?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center"></div>
-              <div class="p-4">
-                <div class="text-xs uppercase font-semibold text-gray-500 mb-1">Trader</div>
-                <h3 class="font-medium text-base mb-2">Beginner’s Guide To Becoming A Professional In Finance</h3>
-                <div class="flex items-center space-x-2 mb-3">
-                  <img src="https://via.placeholder.com/28" alt="author" class="w-7 h-7 rounded-full object-cover"/>
-                  <div class="text-xs">
-                    <div class="font-semibold">Muhammad Fiaz</div>
-                    <div class="text-gray-400">Stock Trader</div>
-                  </div>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="w-1/3 h-full bg-gray-400"></div>
-                </div>
-              </div>
-            </div>
-
-             <div class="card bg-white rounded-2xl overflow-hidden relative">
-              <div class="h-32 bg-[url('https://images.unsplash.com/photo-1581091012184-7d70c6b6d0f6?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center"></div>
-              <div class="p-4">
-                <div class="text-xs uppercase font-semibold text-gray-500 mb-1">Trader</div>
-                <h3 class="font-medium text-base mb-2">Beginner’s Guide To Becoming A Professional In Finance</h3>
-                <div class="flex items-center space-x-2 mb-3">
-                  <img src="https://via.placeholder.com/28" alt="author" class="w-7 h-7 rounded-full object-cover"/>
-                  <div class="text-xs">
-                    <div class="font-semibold">Muhammad Fiaz</div>
-                    <div class="text-gray-400">Stock Trader</div>
-                  </div>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="w-1/3 h-full bg-gray-400"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- more cards (copy/paste or dynamically render) -->
-            <div class="card bg-white rounded-2xl overflow-hidden relative">
-              <div class="h-32 bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center"></div>
-              <div class="p-4">
-                <div class="text-xs uppercase font-semibold text-gray-500 mb-1">Developer</div>
-                <h3 class="font-medium text-base mb-2">Beginner’s Guide To Becoming A Professional Frontend Developer</h3>
-                <div class="flex items-center space-x-2 mb-3">
-                  <img src="https://via.placeholder.com/28" alt="author" class="w-7 h-7 rounded-full object-cover"/>
-                  <div class="text-xs">
-                    <div class="font-semibold">Muhammad Sufyan</div>
-                    <div class="text-gray-400">Web Developer</div>
-                  </div>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="w-1/2 h-full bg-gray-400"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card bg-white rounded-2xl overflow-hidden relative">
-              <div class="h-32 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center"></div>
-              <div class="p-4">
-                <div class="text-xs uppercase font-semibold text-gray-500 mb-1">Designer</div>
-                <h3 class="font-medium text-base mb-2">Step-By-Step Guide To Start Your Career In UI/UX Designer</h3>
-                <div class="flex items-center space-x-2 mb-3">
-                  <img src="https://via.placeholder.com/28" alt="author" class="w-7 h-7 rounded-full object-cover"/>
-                  <div class="text-xs">
-                    <div class="font-semibold">Ali Raza</div>
-                    <div class="text-gray-400">Skill</div>
-                  </div>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="w-1/4 h-full bg-gray-400"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card bg-white rounded-2xl overflow-hidden relative">
-              <div class="h-32 bg-[url('https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center"></div>
-              <div class="p-4">
-                <div class="text-xs uppercase font-semibold text-gray-500 mb-1">Finance</div>
-                <h3 class="font-medium text-base mb-2">Beginner’s Guide To Becoming A Professional In Finance</h3>
-                <div class="flex items-center space-x-2 mb-3">
-                  <img src="https://via.placeholder.com/28" alt="author" class="w-7 h-7 rounded-full object-cover"/>
-                  <div class="text-xs">
-                    <div class="font-semibold">Rooh Ul Hussnain</div>
-                    <div class="text-gray-400">Finance</div>
-                  </div>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="w-2/3 h-full bg-gray-400"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- additional duplicates as needed -->
-          </div>
         </main>
       </div>
     </div>
