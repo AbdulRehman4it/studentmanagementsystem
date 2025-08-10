@@ -40,6 +40,13 @@
           
           
         </a>
+         <a href="./material.php" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
+         <i class="fa-solid fa-certificate"></i>
+          
+          materialssasdsadsa
+          
+          
+        </a>
         <a href="./faqs.php" class="flex items-center px-3 py-2 gap-4 rounded-md hover:bg-gray-100">
       <i class="fa-brands fa-searchengin"></i>
           

@@ -1,328 +1,135 @@
-<?php require_once "inc/header.php"; ?>
+<?php
+require_once "inc/header.php";
+require_once "inc/sidebar.php";
+require_once "inc/topbar.php";
+require_once "../inc/db.php";
+
+// Handle form submission for file upload
+$upload_error = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validate title and file
+    if (!empty($_POST['title']) && isset($_FILES['material_file']) && $_FILES['material_file']['error'] === 0) {
+        $title = $conn->real_escape_string($_POST['title']);
+        $file = $_FILES['material_file'];
+
+        // Sanitize filename and prepare upload directory
+        $upload_dir = __DIR__ . '/uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        $filename = basename($file['name']);
+        $target_file = $upload_dir . $filename;
+
+        // Move uploaded file to uploads directory
+        if (move_uploaded_file($file['tmp_name'], $target_file)) {
+            $filesize = $file['size'];
+            // Assuming teacher's user id = 1 for example, replace as needed
+            $uploaded_by = 1;
+
+            // Insert into DB
+            $sql = "INSERT INTO materials (title, filename, filesize, uploaded_by) VALUES ('$title', '$filename', $filesize, $uploaded_by)";
+            if (!$conn->query($sql)) {
+                $upload_error = "Database error: " . $conn->error;
+            }
+        } else {
+            $upload_error = "Failed to move uploaded file.";
+        }
+    } else {
+        $upload_error = "Please provide a title and select a file.";
+    }
+}
+
+// Fetch all materials to display
+$materials = [];
+$sql = "SELECT * FROM materials ORDER BY uploaded_at DESC";
+$result = $conn->query($sql);
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $materials[] = $row;
+    }
+}
+?>
+
 <body class="bg-gray-50 font-sans antialiased">
   <div class="min-h-screen flex">
-  <?php require_once "inc/sidebar.php"; ?>
+    <!-- Sidebar -->
+    <?php // sidebar included above ?>
 
-    <!-- Overlay for mobile when sidebar open -->
+    <!-- Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black/30 z-10 hidden md:hidden"></div>
 
-    <!-- Main content area -->
+    <!-- Main Content -->
     <div class="flex-1 flex flex-col ml-0 md:ml-64 overflow-hidden">
-      <!-- top bar -->
-        <?php require_once "inc/topbar.php"; ?>
-   <div class="p-6">
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-3xl font-bold">Material</h1>
-      <div class="mt-3 sm:mt-0">
-        <button class="inline-flex items-center gap-2 bg-black hover:bg-white hover:text-black text-white text-sm font-medium px-4 py-2 rounded-lg shadow">
-          + Add Material
-        </button>
-      </div>
-    </div>
+      <!-- Topbar -->
+      <?php // topbar included above ?>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <!-- Card template -->
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <!-- More options -->
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+      <div class="p-6 max-w-7xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-3xl font-bold">Upload Material</h1>
         </div>
 
-        <!-- Icon -->
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <!-- Placeholder for app icon -->
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
+        <!-- Upload Form -->
+        <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-2xl shadow-md max-w-md mb-8">
+          <?php if ($upload_error): ?>
+            <div class="mb-4 text-red-600 font-semibold"><?= htmlspecialchars($upload_error) ?></div>
+          <?php endif; ?>
+
+          <div class="mb-4">
+            <label for="title" class="block text-gray-700 font-semibold mb-2">Title</label>
+            <input type="text" id="title" name="title" required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
           </div>
-        </div>
 
-        <!-- Title & timestamp -->
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-
-        <div class="flex-1"></div>
-
-        <!-- Size -->
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <!-- Duplicate cards for demonstration -->
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
+          <div class="mb-4">
+            <label for="material_file" class="block text-gray-700 font-semibold mb-2">Select File</label>
+            <input type="file" id="material_file" name="material_file" required
+              class="w-full" />
           </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
+
+          <button type="submit" 
+            class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">Upload</button>
+        </form>
+
+        <!-- Materials Table -->
+        <div class="overflow-x-auto bg-white rounded-2xl shadow p-4">
+          <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-6 py-3 text-left font-semibold text-gray-600 uppercase whitespace-nowrap">Title</th>
+                <th class="px-6 py-3 text-left font-semibold text-gray-600 uppercase whitespace-nowrap">Filename</th>
+                <th class="px-6 py-3 text-left font-semibold text-gray-600 uppercase whitespace-nowrap">Size</th>
+                <th class="px-6 py-3 text-left font-semibold text-gray-600 uppercase whitespace-nowrap">Uploaded At</th>
+                <th class="px-6 py-3 text-left font-semibold text-gray-600 uppercase whitespace-nowrap">Download</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <?php if (count($materials) > 0): ?>
+                <?php foreach ($materials as $material): ?>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($material['title']) ?></td>
+                    <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($material['filename']) ?></td>
+                    <td class="px-6 py-4 whitespace-nowrap"><?= number_format($material['filesize'] / 1024, 2) ?> KB</td>
+                    <td class="px-6 py-4 whitespace-nowrap"><?= date('Y-m-d H:i', strtotime($material['uploaded_at'])) ?></td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <a href="<?= 'uploads/' . urlencode($material['filename']) ?>" 
+                         class="text-blue-600 hover:underline" 
+                         download>Download</a>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <tr>
+                  <td colspan="5" class="px-6 py-4 text-center text-gray-500">No materials uploaded yet.</td>
+                </tr>
+              <?php endif; ?>
+            </tbody>
+          </table>
         </div>
       </div>
-
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <!-- add more cards as needed -->
-    </div>
-
-     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-      <!-- Card template -->
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <!-- More options -->
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-
-        <!-- Icon -->
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <!-- Placeholder for app icon -->
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-
-        <!-- Title & timestamp -->
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-
-        <div class="flex-1"></div>
-
-        <!-- Size -->
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <!-- Duplicate cards for demonstration -->
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <!-- add more cards as needed -->
-    </div>
-
-     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-      <!-- Card template -->
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <!-- More options -->
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-
-        <!-- Icon -->
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <!-- Placeholder for app icon -->
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-
-        <!-- Title & timestamp -->
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-
-        <div class="flex-1"></div>
-
-        <!-- Size -->
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <!-- Duplicate cards for demonstration -->
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <div class="relative bg-white border border-gray-300 rounded-2xl shadow p-5 flex flex-col">
-        <div class="absolute top-4 right-4 flex flex-col items-center gap-1">
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          <div class="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-        </div>
-        <div class="mt-6 mb-3 flex justify-center">
-          <div class="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center shadow-sm bg-white">
-            <img src="https://via.placeholder.com/60" alt="app icon" class="w-12 h-12 object-contain" />
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="font-semibold text-lg">App School.Fig</div>
-          <div class="text-xs text-gray-500 mt-1">10:08 PM, 10 Oct</div>
-        </div>
-        <div class="flex-1"></div>
-        <div class="mt-4 self-end text-sm font-medium text-gray-700">
-          2 GB
-        </div>
-      </div>
-
-      <!-- add more cards as needed -->
-    </div>
-  </div>
     </div>
   </div>
 
-  
-
-  <!-- sidebar menu  -->
+  <!-- Sidebar & overlay JS (from your code) -->
   <script>
     const sidebar = document.getElementById('sidebar');
     const menuBtn = document.getElementById('menu-btn');

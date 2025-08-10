@@ -1,188 +1,76 @@
-<?php require_once "inc/header.php"; ?>
+<?php 
+require_once "inc/header.php"; 
+require_once "../inc/db.php";
+
+
+
+$teacher_id = $_SESSION['user_id'];
+
+// Fetch all grading entries for this teacher
+$sql = "SELECT g.*, a.title AS assignment_title, u.name AS student_name
+        FROM grading g
+        JOIN assignments a ON g.assignment_id = a.id
+        JOIN users u ON g.student_id = u.id
+        WHERE a.uploaded_by = ?
+        ORDER BY g.graded_at DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $teacher_id);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
 <body class="bg-gray-50 font-sans antialiased">
   <div class="min-h-screen flex">
-  <?php require_once "inc/sidebar.php"; ?>
-
-    <!-- Overlay for mobile when sidebar open -->
-    <div id="overlay" class="fixed inset-0 bg-black/30 z-10 hidden md:hidden"></div>
-
-    <!-- Main content area -->
+    <?php require_once "inc/sidebar.php"; ?>
     <div class="flex-1 flex flex-col ml-0 md:ml-64 overflow-hidden">
-      <!-- top bar -->
-  <?php require_once "inc/topbar.php"; ?>
+      <?php require_once "inc/topbar.php"; ?>
 
-   <div class="max-w-full px-4 py-6">
-  <div class="text-2xl font-bold mb-4">Course Grading Overview</div>
+      <div class="max-w-full px-4 py-6">
+        <div class="text-2xl font-bold mb-4">Course Grading Overview</div>
 
-  <div class="overflow-x-auto rounded-xl shadow">
-    <table class="min-w-[800px] w-full text-left bg-white border-collapse">
-      <thead class="bg-gray-100 text-sm font-semibold text-gray-700">
-        <tr>
-          <th class="p-4"><input type="checkbox" /></th>
-          <th class="p-4">Course Code</th>
-          <th class="p-4">Username</th>
-          <th class="p-4">Total Marks</th>
-          <th class="p-4">Obtained Marks</th>
-          <th class="p-4">Percentage</th>
-          <th class="p-4">Grade</th>
-          <th class="p-4">Status</th>
-        </tr>
-      </thead>
-      <tbody class="text-sm text-gray-800">
-        <!-- Row 1 -->
-        <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">UIUX101</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=1" class="w-6 h-6 rounded-full" />
-            jack99
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">88</td>
-          <td class="p-4">88%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-green-600 font-medium">Passed ✅</td>
-        </tr>
-
-         <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">UIUX101</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=1" class="w-6 h-6 rounded-full" />
-            jack99
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">88</td>
-          <td class="p-4">88%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-green-600 font-medium">Passed ✅</td>
-        </tr>
-
-         <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">UIUX101</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=1" class="w-6 h-6 rounded-full" />
-            jack99
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">88</td>
-          <td class="p-4">88%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-green-600 font-medium">Passed ✅</td>
-        </tr>
-
-         <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">UIUX101</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=1" class="w-6 h-6 rounded-full" />
-            jack99
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">88</td>
-          <td class="p-4">88%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-green-600 font-medium">Passed ✅</td>
-        </tr>
-        <!-- Add more rows similarly... -->
-
-        <!-- Example Failed Row -->
-        <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">WD202</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=2" class="w-6 h-6 rounded-full" />
-            tom_dev
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">52</td>
-          <td class="p-4">52%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-red-600 font-medium">Failed ❌</td>
-        </tr>
-
-        <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">WD202</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=2" class="w-6 h-6 rounded-full" />
-            tom_dev
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">52</td>
-          <td class="p-4">52%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-red-600 font-medium">Failed ❌</td>
-        </tr>
-
-
-        <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">WD202</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=2" class="w-6 h-6 rounded-full" />
-            tom_dev
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">52</td>
-          <td class="p-4">52%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-red-600 font-medium">Failed ❌</td>
-        </tr>
-
-
-        <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">WD202</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=2" class="w-6 h-6 rounded-full" />
-            tom_dev
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">52</td>
-          <td class="p-4">52%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-red-600 font-medium">Failed ❌</td>
-        </tr>
-
-
-        <tr class="border-b">
-          <td class="p-4"><input type="checkbox" /></td>
-          <td class="p-4">WD202</td>
-          <td class="p-4 flex items-center gap-2">
-            <img src="https://i.pravatar.cc/30?img=2" class="w-6 h-6 rounded-full" />
-            tom_dev
-          </td>
-          <td class="p-4">100</td>
-          <td class="p-4">52</td>
-          <td class="p-4">52%</td>
-          <td class="p-4">A</td>
-          <td class="p-4 text-red-600 font-medium">Failed ❌</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Pagination -->
-  <div class="flex justify-between items-center mt-4 text-sm text-gray-600">
-    <button class="p-2 rounded-full hover:bg-gray-200">&larr;</button>
-    <span>Page 1 of 10</span>
-    <button class="p-2 rounded-full hover:bg-gray-200">&rarr;</button>
-  </div>
-</div>
+        <div class="overflow-x-auto rounded-xl shadow bg-white">
+          <table class="min-w-[900px] w-full text-left border-collapse">
+            <thead class="bg-gray-100 text-sm font-semibold text-gray-700">
+              <tr>
+                <th class="p-4 border">Assignment</th>
+                <th class="p-4 border">Student</th>
+                <th class="p-4 border">Total Marks</th>
+                <th class="p-4 border">Obtained Marks</th>
+                <th class="p-4 border">Percentage</th>
+                <th class="p-4 border">Grade</th>
+                <th class="p-4 border">Status</th>
+                <th class="p-4 border">Action</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm text-gray-800">
+              <?php while ($row = $result->fetch_assoc()): ?>
+                <tr class="border-b">
+                  <td class="p-4 border"><?= htmlspecialchars($row['assignment_title']) ?></td>
+                 <td class="p-4 border">
+  <?= htmlspecialchars($row['student_name']) ?>
+</td>
+                  <td class="p-4 border"><?= $row['total_marks'] ?></td>
+                  <td class="p-4 border"><?= $row['obtained_marks'] !== null ? $row['obtained_marks'] : '-' ?></td>
+                  <td class="p-4 border"><?= $row['percentage'] !== null ? number_format($row['percentage'], 2) . '%' : '-' ?></td>
+                  <td class="p-4 border"><?= $row['grade'] ?? '-' ?></td>
+                  <td class="p-4 border <?= ($row['status'] === 'Passed') ? 'text-green-600' : 'text-red-600' ?> font-medium"><?= $row['status'] ?? '-' ?></td>
+                  <td class="p-4 border">
+                    <a href="grade_edit.php?id=<?= $row['id'] ?>" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Edit</a>
+                  </td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
     </div>
   </div>
 
-  
-
-  <!-- sidebar menu  -->
   <script>
     const sidebar = document.getElementById('sidebar');
     const menuBtn = document.getElementById('menu-btn');
     const overlay = document.getElementById('overlay');
-
     function openSidebar() {
       sidebar.classList.remove('-translate-x-full');
       overlay.classList.remove('hidden');
@@ -191,7 +79,6 @@
       sidebar.classList.add('-translate-x-full');
       overlay.classList.add('hidden');
     }
-
     menuBtn.addEventListener('click', () => {
       if (sidebar.classList.contains('-translate-x-full')) {
         openSidebar();
@@ -199,10 +86,12 @@
         closeSidebar();
       }
     });
-
     overlay.addEventListener('click', closeSidebar);
   </script>
-
-  <script src="https://kit.fontawesome.com/a2ada4947c.js" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<?php
+$stmt->close();
+$conn->close();
+?>
