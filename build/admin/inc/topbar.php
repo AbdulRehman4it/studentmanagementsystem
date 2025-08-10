@@ -24,7 +24,7 @@
   <button id="user-menu-btn" aria-haspopup="true" aria-expanded="false" class="flex items-center gap-2 px-3 py-2" onclick="toggleUserMenu()">
 
       <img src="https://via.placeholder.com/32" alt="avatar" class="w-8 h-8 rounded-full object-cover"/>
-    <span class="text-sm">Roh_ul_Hussnain</span>
+    <span class="text-base font-medium">Roh_ul_Hussnain</span>
   
     <!-- <svg id="chevron" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -32,7 +32,7 @@
   </button>
 
   <!-- dropdown -->
-  <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 hidden z-30" role="menu" aria-label="User menu">
+  <!-- <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 hidden z-30" role="menu" aria-label="User menu">
     <div class="px-4 py-2 text-xs text-gray-500">Signed in as</div>
     <div class="px-4 pb-2">
       <div class="font-semibold text-sm">Roh_ul_Hussnain</div>
@@ -45,7 +45,7 @@
       </svg>
       <span class="text-sm text-red-600">Logout</span>
     </button>
-  </div>
+  </div> -->
 </div>
 
 
