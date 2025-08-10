@@ -22,7 +22,7 @@ if ($result) {
       <!-- top bar -->
       <?php require_once "inc/topbar.php"; ?>
 
-  <div class="overflow-x-auto bg-white rounded-2xl shadow p-4">
+  <div class="overflow-x-auto bg-white rounded-2xl shadow p-4 mt-10 xl:mx-10 mx-5">
           <table class="min-w-full divide-y divide-gray-200 text-sm">
             <thead class="bg-gray-100">
               <tr>

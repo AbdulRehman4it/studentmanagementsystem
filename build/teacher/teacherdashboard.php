@@ -13,7 +13,7 @@
        <?php require_once "inc/topbar.php"; ?>
 
       <div class=" p-6">
-    <h1 class="text-3xl font-bold mb-6">Welcome Teacher</h1>
+    <h1 class="text-3xl font-bold mb-6">Teacher Dashboard</h1>
 
     <!-- Top stat cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">

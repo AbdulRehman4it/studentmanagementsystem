@@ -50,10 +50,10 @@ $assignments = $conn->query($sql);
   <div class="flex-1 flex flex-col ml-0 md:ml-64 overflow-hidden">
     <?php require_once "inc/topbar.php"; ?>
 
-    <div class="p-6 max-w-7xl mx-auto">
+    <div class="p-6 max-w-7xl  mt-10">
       <h1 class="text-3xl font-bold mb-6">Upload New Assignment</h1>
 
-      <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md max-w-md mb-10">
+      <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md max-w-7xl mb-10">
         <?php if ($upload_error): ?>
           <div class="mb-4 text-red-600 font-semibold"><?= htmlspecialchars($upload_error) ?></div>
         <?php endif; ?>

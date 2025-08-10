@@ -12,7 +12,7 @@
    <?php require_once "inc/topbar.php"; ?>
 
       <!-- certificate content  -->
-    <div class="md:p-20 p-6 w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="md:p-10 p-5 w-full grid grid-cols-1 md:grid-cols-3 gap-6">
   
 
 <?php

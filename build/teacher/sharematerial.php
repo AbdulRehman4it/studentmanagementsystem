@@ -1,7 +1,7 @@
 <?php
 require_once "inc/header.php";
 require_once "inc/sidebar.php";
-require_once "inc/topbar.php";
+
 require_once "../inc/db.php";
 
 // Handle form submission for file upload
@@ -51,7 +51,7 @@ if ($result) {
 ?>
 
 <body class="bg-gray-50 font-sans antialiased">
-  <div class="min-h-screen flex">
+  <div class="min-h-screen flex">   
     <!-- Sidebar -->
     <?php // sidebar included above ?>
 
@@ -59,17 +59,19 @@ if ($result) {
     <div id="overlay" class="fixed inset-0 bg-black/30 z-10 hidden md:hidden"></div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col ml-0 md:ml-64 overflow-hidden">
+    <div class="flex-1 flex flex-col ml-0 md:ml-64 overflow">
       <!-- Topbar -->
+
+      <?php require_once "inc/topbar.php"; ?>
       <?php // topbar included above ?>
 
-      <div class="p-6 max-w-7xl mx-auto">
+      <div class="p-6 max-w-7xl">
         <div class="flex items-center justify-between mb-6">
           <h1 class="text-3xl font-bold">Upload Material</h1>
         </div>
 
         <!-- Upload Form -->
-        <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-2xl shadow-md max-w-md mb-8">
+        <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-2xl shadow-md max-w-7xl mb-8">
           <?php if ($upload_error): ?>
             <div class="mb-4 text-red-600 font-semibold"><?= htmlspecialchars($upload_error) ?></div>
           <?php endif; ?>

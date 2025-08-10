@@ -16,7 +16,7 @@
       <div class="flex-1 overflow-y-auto">
         <!-- hero/banner -->
         <section class="px-4 py-6">
-          <h1 class="text-4xl pb-10 font-bold">Dashboard</h1>
+          <h1 class="text-4xl pb-10 font-bold">Student Dashboard</h1>
           <div class="rounded-xl bg-neutral-900 text-white p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div class="flex-1">
               <div class="text-sm uppercase tracking-wide mb-1">Online Course</div>
