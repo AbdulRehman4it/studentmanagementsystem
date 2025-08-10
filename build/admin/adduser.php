@@ -106,7 +106,7 @@ $users = $conn->query("SELECT * FROM users");
             <form method="POST" action="#">
               <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
               <input type="hidden" name="current_status" value="<?= $row['verify_status'] ?>">
-              <button type="submit" name="toggle_status" class="flex items-center w-full px-4 py-2 text-sm text-blue-600 hover:bg-gray-100">
+              <button type="submit" name="toggle_status" class="px-2 py-2 hover:bg-black hover:text-white text-center text-base font-semibold text-black rounded w-full">
                 <?= $row['verify_status'] === 'approved' ? '❌ Set Pending' : '✅ Approve' ?>
               </button>
             </form>
@@ -116,14 +116,14 @@ $users = $conn->query("SELECT * FROM users");
     <form method="POST" style="display:inline;">
       <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
       <input type="hidden" name="role" value="student">
-      <button type="submit" name="assign_role" class="px-2 py-1 bg-blue-500 text-white rounded">Make Student</button>
+      <button type="submit" name="assign_role" class="px-2 py-2 hover:bg-black hover:text-white text-center text-base font-semibold text-black rounded w-full">Make Student</button>
     </form>
 
     <!-- Assign Teacher Role -->
     <form method="POST" style="display:inline;">
       <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
       <input type="hidden" name="role" value="teacher">
-      <button type="submit" name="assign_role" class="px-2 py-1 bg-green-600 text-white rounded">Make Teacher</button>
+      <button type="submit" name="assign_role" class="px-2 py-2 hover:bg-black hover:text-white text-center text-base font-semibold text-black rounded w-full">Make Teacher</button>
     </form>
 
           </div>
