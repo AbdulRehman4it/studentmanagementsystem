@@ -26,7 +26,7 @@
     <img src="https://i.pravatar.cc/32" alt="avatar" class="w-8 h-8 rounded-full object-cover" />
     <?php
 // adjust path to your DB connection file
-
+require '../inc/db.php';
 $user_name = 'Guest';
 if (isset($_SESSION['user_id'])) {
     $user_id = intval($_SESSION['user_id']);
