@@ -18,110 +18,59 @@
     <!-- Expandable Comment Card -->
     <div class="space-y-4">
 
-      <!-- Single Hoverable Comment -->
-      <div class="bg-white rounded-2xl shadow group transition-all duration-300 overflow-hidden p-4 hover:p-6">
-        <div class="flex justify-between items-start">
-          <div class="flex gap-4">
-            <img src="https://randomuser.me/api/portraits/men/11.jpg" class="w-10 h-10 rounded-full" alt="user"/>
-            <div>
-              <p class="font-semibold">roh_ul</p>
-              <p class="text-sm text-gray-700">Mobile UX Fundamentals → Base topic ya foundation?</p>
-            </div>
-          </div>
-          <p class="text-sm text-gray-500 whitespace-nowrap">2 day ago</p>
-        </div>
+     <?php
 
-        <!-- Hidden feedback, shows on hover -->
-        <div class="mt-4 max-h-0 opacity-0 group-hover:max-h-[500px] group-hover:opacity-100 transition-all duration-500 text-sm text-gray-700">
-          <p>
-            Hey everyone, <br />
-            As someone completely new to UI/UX design 🧑‍🎨, I found this topic incredibly helpful 💡.
-            It introduces the base principles like mobile-first thinking, touch targets, consistency, and performance, 
-            which are the foundation of good mobile UX.
-          </p>
+require '../inc/db.php';
+// Fetch feedback only from feedback table
+$sql = "SELECT * FROM feedback ORDER BY created_at DESC LIMIT 10";
+$result = $conn->query($sql);
+
+function renderStars($rating) {
+    $fullStars = floor($rating);
+    $halfStar = ($rating - $fullStars) >= 0.5;
+    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+
+    $starsHtml = str_repeat('★', $fullStars);
+    if ($halfStar) $starsHtml .= '☆'; // or half star
+    $starsHtml .= str_repeat('☆', $emptyStars);
+
+    return $starsHtml;
+}
+
+if ($result && $result->num_rows > 0):
+    while ($row = $result->fetch_assoc()):
+        $ratingStars = renderStars($row['rating']);
+?>
+    <div class="bg-white rounded-2xl shadow group transition-all duration-300 overflow-hidden p-4 hover:p-6">
+      <div class="flex justify-between items-start">
+        <div class="flex gap-4">
+          <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center font-semibold text-white">
+            <?= htmlspecialchars($row['user_id']) ?>
+          </div>
+          <div>
+            <p class="font-semibold">User ID: <?= htmlspecialchars($row['user_id']) ?></p>
+            <p class="text-sm text-gray-700">Course ID: <?= htmlspecialchars($row['course_id']) ?></p>
+          </div>
         </div>
+        <p class="text-sm text-gray-500 whitespace-nowrap"><?= date('j M Y', strtotime($row['created_at'])) ?></p>
       </div>
 
-      <!-- Copy this block for each comment -->
-      <div class="bg-white rounded-2xl shadow group transition-all duration-300 overflow-hidden p-4 hover:p-6">
-        <div class="flex justify-between items-start">
-          <div class="flex gap-4">
-            <img src="https://randomuser.me/api/portraits/men/11.jpg" class="w-10 h-10 rounded-full" alt="user"/>
-            <div>
-              <p class="font-semibold">roh_ul</p>
-              <p class="text-sm text-gray-700">Strategies for SEO, Social Media, and Online Growth?</p>
-            </div>
-          </div>
-          <p class="text-sm text-gray-500 whitespace-nowrap">2 day ago</p>
-        </div>
+      <!-- Star Rating -->
+      <div class="text-yellow-500 text-lg mb-2"><?= $ratingStars ?></div>
 
-        <div class="mt-4 max-h-0 opacity-0 group-hover:max-h-[500px] group-hover:opacity-100 transition-all duration-500 text-sm text-gray-700">
-          <p>
-            This section dives into how SEO strategies align with UX. It also shows how social media platforms impact 
-            content design decisions and how growth loops are part of modern UX thinking. Super insightful!
-          </p>
-        </div>
+      <div class="mt-4 max-h-0 opacity-0 group-hover:max-h-[500px] group-hover:opacity-100 transition-all duration-500 text-sm text-gray-700">
+        <p><?= nl2br(htmlspecialchars($row['comments'])) ?></p>
       </div>
+    </div>
+<?php
+    endwhile;
+else:
+    echo "<p>No feedback available.</p>";
+endif;
 
-       <div class="bg-white rounded-2xl shadow group transition-all duration-300 overflow-hidden p-4 hover:p-6">
-        <div class="flex justify-between items-start">
-          <div class="flex gap-4">
-            <img src="https://randomuser.me/api/portraits/men/11.jpg" class="w-10 h-10 rounded-full" alt="user"/>
-            <div>
-              <p class="font-semibold">roh_ul</p>
-              <p class="text-sm text-gray-700">Strategies for SEO, Social Media, and Online Growth?</p>
-            </div>
-          </div>
-          <p class="text-sm text-gray-500 whitespace-nowrap">2 day ago</p>
-        </div>
+$conn->close();
+?>
 
-        <div class="mt-4 max-h-0 opacity-0 group-hover:max-h-[500px] group-hover:opacity-100 transition-all duration-500 text-sm text-gray-700">
-          <p>
-            This section dives into how SEO strategies align with UX. It also shows how social media platforms impact 
-            content design decisions and how growth loops are part of modern UX thinking. Super insightful!
-          </p>
-        </div>
-      </div>
-
-       <div class="bg-white rounded-2xl shadow group transition-all duration-300 overflow-hidden p-4 hover:p-6">
-        <div class="flex justify-between items-start">
-          <div class="flex gap-4">
-            <img src="https://randomuser.me/api/portraits/men/11.jpg" class="w-10 h-10 rounded-full" alt="user"/>
-            <div>
-              <p class="font-semibold">roh_ul</p>
-              <p class="text-sm text-gray-700">Strategies for SEO, Social Media, and Online Growth?</p>
-            </div>
-          </div>
-          <p class="text-sm text-gray-500 whitespace-nowrap">2 day ago</p>
-        </div>
-
-        <div class="mt-4 max-h-0 opacity-0 group-hover:max-h-[500px] group-hover:opacity-100 transition-all duration-500 text-sm text-gray-700">
-          <p>
-            This section dives into how SEO strategies align with UX. It also shows how social media platforms impact 
-            content design decisions and how growth loops are part of modern UX thinking. Super insightful!
-          </p>
-        </div>
-      </div>
-
-       <div class="bg-white rounded-2xl shadow group transition-all duration-300 overflow-hidden p-4 hover:p-6">
-        <div class="flex justify-between items-start">
-          <div class="flex gap-4">
-            <img src="https://randomuser.me/api/portraits/men/11.jpg" class="w-10 h-10 rounded-full" alt="user"/>
-            <div>
-              <p class="font-semibold">roh_ul</p>
-              <p class="text-sm text-gray-700">Strategies for SEO, Social Media, and Online Growth?</p>
-            </div>
-          </div>
-          <p class="text-sm text-gray-500 whitespace-nowrap">2 day ago</p>
-        </div>
-
-        <div class="mt-4 max-h-0 opacity-0 group-hover:max-h-[500px] group-hover:opacity-100 transition-all duration-500 text-sm text-gray-700">
-          <p>
-            This section dives into how SEO strategies align with UX. It also shows how social media platforms impact 
-            content design decisions and how growth loops are part of modern UX thinking. Super insightful!
-          </p>
-        </div>
-      </div>
 
     </div>
 
