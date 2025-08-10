@@ -1,4 +1,4 @@
-<?php include("inc/db.php"); ?>
+<?php include("inc/header.php"); ?>
 
 <body class="bg-[#fbfbfb]">
 

@@ -1,12 +1,12 @@
 <?php
 error_reporting(0);
 session_start();
-$_SESSION['user_id'] = $row['id'];
-$_SESSION['user_name'] = $row['name'];
-$_SESSION['user_email'] = $row['email'];
-$_SESSION['user_role'] = $row['role']; 
-require_once "inc/db.php"; // Adjust this path if needed
-
+// $_SESSION['user_id'] = $row['id'];
+// $_SESSION['user_name'] = $row['name'];
+// $_SESSION['user_email'] = $row['email'];
+// $_SESSION['user_role'] = $row['role']; 
+// Adjust this path if needed
+require_once "inc/header.php";
 $loginError = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
