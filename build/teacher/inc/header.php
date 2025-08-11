@@ -14,5 +14,5 @@ require '../inc/db.php';
   <title>Responsive Dashboard</title>
  <link rel="stylesheet" href="../assets/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- 
+ <script src="./inc/js/script.js"></script>
 </head>

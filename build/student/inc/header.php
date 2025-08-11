@@ -14,4 +14,5 @@ require '../inc/db.php';
   <title>Responsive Dashboard</title>
  <link rel="stylesheet" href="../assets/css/style.css">
  <script src="https://kit.fontawesome.com/a2ada4947c.js" crossorigin="anonymous"></script>
+ <script src="./inc/js/script.js"></script>
 </head>
