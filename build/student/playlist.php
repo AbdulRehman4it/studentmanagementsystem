@@ -14,7 +14,18 @@
       <?php
 include '../inc/db.php';
 
-$courseId = isset($_GET['id']) && intval($_GET['id']) > 0 ? intval($_GET['id']) : 1;
+// If id is passed and valid, use it
+if (isset($_GET['id']) && intval($_GET['id']) > 0) {
+    $courseId = intval($_GET['id']);
+} else {
+    // Fetch first available course id from table
+    $result = $conn->query("SELECT id FROM courses ORDER BY id ASC LIMIT 1");
+    if ($result && $row = $result->fetch_assoc()) {
+        $courseId = intval($row['id']);
+    } else {
+        die("No courses found in database.");
+    }
+}
 
 // Fetch course data
 $sql = "SELECT * FROM courses WHERE id = $courseId";
